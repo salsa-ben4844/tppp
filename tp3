@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/* -------- Product Structure -------- */
+typedef struct Product {
+    int ID;
+    char Name[20];
+    int Price;
+} Product;
+
+/* -------- Node Structure -------- */
+typedef struct Node {
+    Product Prod;
+    struct Node *next;
+} Node;
+
+/* -------- Create Empty Circular List -------- */
+Node* createEmptyList() {
+    return NULL;
+}
+
+/* -------- Check if List is Empty -------- */
+int isEmpty(Node *head) {
+    return (head == NULL);
+}
+
+/* -------- Insert at Beginning -------- */
+Node* insertAtBeginning(Node *head, Product p) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+
+    newNode->Prod = p;
+
+    if (head == NULL) {
+        newNode->next = newNode;
+        head = newNode;
+    } else {
+        Node *temp = head;
+        while (temp->next != head)
+            temp = temp->next;
+
+        newNode->next = head;
+        temp->next = newNode;
+        head = newNode;
+    }
+    return head;
+}
+
+/* -------- Insert at End -------- */
+Node* insertAtEnd(Node *head, Product p) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+
+    newNode->Prod = p;
+
+    if (head == NULL) {
+        newNode->next = newNode;
+        head = newNode;
+    } else {
+        Node *temp = head;
+        while (temp->next != head)
+            temp = temp->next;
+
+        temp->next = newNode;
+        newNode->next = head;
+    }
+    return head;
+}
+
+/* -------- Display Products (One Cycle Only) -------- */
+void displayList(Node *head) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    Node *temp = head;
+    do {
+        printf("ID: %d | Name: %s | Price: %d\n",
+               temp->Prod.ID,
+               temp->Prod.Name,
+               temp->Prod.Price);
+        temp = temp->next;
+    } while (temp != head);
+}
+
+/* -------- Main Program -------- */
+int main() {
+    Node *head = createEmptyList();
+    Product p;
+
+    /* Insert at beginning */
+    p.ID = 1;
+    strcpy(p.Name, "Laptop");
+    p.Price = 1500;
+    head = insertAtBeginning(head, p);
+
+    /* Insert at end */
+    p.ID = 2;
+    strcpy(p.Name, "Mouse");
+    p.Price = 50;
+    head = insertAtEnd(head, p);
+
+    p.ID = 3;
+    strcpy(p.Name, "Keyboard");
+    p.Price = 100;
+    head = insertAtEnd(head, p);
+
+    /* Display list */
+    displayList(head);
+
+    return 0;
+}
