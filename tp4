@@ -3,13 +3,11 @@
 #include <ctype.h>
 #include <string.h>
 
-/* -------- Stack Node -------- */
 typedef struct SNode {
     char data;
     struct SNode *next;
 } SNode;
 
-/* -------- Queue Node -------- */
 typedef struct QNode {
     char data;
     struct QNode *next;
@@ -44,7 +42,7 @@ SNode* pop(SNode *top, char *value) {
     return top;
 }
 
-/* -------- Queue Functions -------- */
+
 void initQueue(Queue *q) {
     q->front = NULL;
     q->rear = NULL;
